@@ -42,6 +42,7 @@ local addon=LibStub("AlarLoader-3.0"):CreateAddon(me,true) --#PetCare
 function addon:OnInitialized()
 	if (self:Is('HUNTER')) then
 		self:Init()
+		self:loadHelp()
 	else
 		print(L['This addon is meaningless for non hunter'])
 		self:Disable()

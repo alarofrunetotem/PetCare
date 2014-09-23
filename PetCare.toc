@@ -7,12 +7,12 @@
 ## eMail: alar@aspide.it
 ## RequiredDeps:
 ## OptionalDeps: AlarArtRemover
-## X-Embeds: 
+## X-Embeds:
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariables: dbPetCare
 ## SavedVariablesPerCharacter: localdbPetCare
-## X-ID: ILD
+## X-ID: PetCare
 ## X-Database: dbPetCare
 ## X-Revision: @project-abbreviated-hash@
 ## X-Category: Hunter

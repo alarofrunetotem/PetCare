@@ -1,0 +1,13 @@
+local me,ns=...
+local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
+local hlp=LibStub("AceAddon-3.0"):GetAddon(me)
+function hlp:loadHelp()
+self:HF_Title("Pet Care","Description")
+self:HF_Paragraph("Description")
+self:HF_Pre([[
+PetCare manages your fighting pet needs:
+	keeps track of mend pet
+	allow to cast mend pet,revive pet and misdirection directly via it's frame
+	shows your current aggro compared to yout pet's one
+]])
+end
