@@ -9,5 +9,9 @@ PetCare manages your fighting pet needs:
 	keeps track of mend pet
 	allow to cast mend pet,revive pet and misdirection directly via it's frame
 	shows your current aggro compared to yout pet's one
+	can play a sound and or show an alert when your pet falls under a customizable level of health
+]])
+self:RelNotes(1,0,0,[[
+First public release
 ]])
 end
