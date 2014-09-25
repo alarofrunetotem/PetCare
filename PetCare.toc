@@ -6,7 +6,7 @@
 ## X-Version: 0.1 w50400
 ## eMail: alar@aspide.it
 ## RequiredDeps:
-## OptionalDeps: AlarArtRemover
+## OptionalDeps: Ace3,AlarArtRemover,LibDebug
 ## X-Embeds:
 ## DefaultState: Enabled
 ## LoadOnDemand: 0

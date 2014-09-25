@@ -78,6 +78,7 @@ local iconrem
 --
 local addon=LibStub("AlarLoader-3.0"):CreateAddon(me,true) --#PetCare
 function addon:OnInitialized()
+	_G.PC=self
 --@debug@
 	debugEnable(true)
 --@end-debug@
@@ -101,12 +102,10 @@ function addon:APPLY()
 		soundalert=self:GetBoolean("SOUNDALERT")
 		screenalert=self:GetBoolean("SCREENALERT")
 		iconalert=self:GetBoolean("ICONALERT")
-		alert=soundalert or screenalert
+		alert=soundalert or screenalert or iconalert
 		sound=self:GetVar("SOUND")
 		limit=self:GetVar("LIMIT")
-		alertmessage=L["Pet health under "] .. limit .. "%"
-		print(alert,alertmessage,sound)
-
+		alertmessage=format(L["Pet health under "] .. "%d%%",limit)
 end
 function addon:Init()
 	MendPet=GetSpellInfo(MendPetId)
@@ -197,15 +196,16 @@ function addon:GenerateFrame()
 			self.petstatus=status
 			self.petbar=petbar
 			iconrem=CreateFrame("Frame")
+			iconrem:Hide()
 			iconrem:SetBackdrop( {
 				bgFile = select(3,GetSpellInfo(MendPet)),
 				edgeFile = nil, tile = false, tileSize = 0, edgeSize = 32,
 				insets = { left = 0, right = 0, top = 0, bottom = 0 }
 			});
-			iconrem:SetAlpha(0.5)
+			iconrem:SetAlpha(0.4)
 			iconrem:SetPoint("CENTER")
-			iconrem:SetWidth(64)
-			iconrem:SetHeight(64)
+			iconrem:SetWidth(128)
+			iconrem:SetHeight(128)
 
 			self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
@@ -220,6 +220,7 @@ function addon:PetAlert(value)
 		iconrem:Hide()
 		return
 	end
+	debug(limit,health)
 	if (UnitBuff("Pet",MendPet)) then return end -- Already has mend pet
 	if (not throttled) then
 		if (value) then debug("throttled") end
@@ -294,8 +295,6 @@ local function barupdate(bar,elapsed)
 end
 function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 	if (caster == "player") then
-		print(spell,"=",spellid)
-
 		if (spell==MendPet) then
 			local status=self.petstatus
 			iconrem:Hide()
@@ -333,4 +332,3 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 		end
 	end
 end
-PC=addon
