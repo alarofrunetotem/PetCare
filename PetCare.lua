@@ -276,8 +276,20 @@ function addon:GenThreatBar(threatbar,unit,target)
 		end
 	threatbar:SetScript("OnUpdate",threatbar.refresh)
 end
+local function misCheck(bar,elapsed)
+	if (floor(GetTime()) > bar:Get("u")) then
+		if (not UnitBuff("pet",Misdirection)) then
+			debug(Misdirection,":",UnitBuff("pet",Misdirection))
+			bar:Stop()
+		end
+	end
+end
 local function barupdate(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
+		if (not UnitBuff("pet",MendPet)) then
+			debug(MendPet,":",UnitBuff("pet",MendPet))
+			bar:Stop()
+		end
 		local p=bar:Get("h") -- old health
 		local h=UnitHealth("pet") -- current health
 		local r=bar:Get("r")
@@ -307,8 +319,12 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 				bar:SetTimeVisibility(false)
 				bar:SetParent(status)
 				bar:SetPoint("TOPLEFT",status,"BOTTOMLEFT",0,-3)
-				bar:SetColor(C:Orange())
-				bar:Set("u",floor(GetTime()))
+				if (UnitHealth("pet")==UnitHealthMax("pet")) then
+					bar:SetColor(C:green())
+				else
+					bar:SetColor(C:orange())
+				end
+				bar:Set("u",floor(GetTime())+1)
 				bar:Set("h",UnitHealth("pet"))
 				bar:Set("r",UnitHealthMax("pet")/20) -- 5% health
 				bar:SetDuration(10)
@@ -320,12 +336,13 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 			local name,_,icon=GetSpellInfo(Misdirection)
 			local status=self.petbar
 			bar:SetIcon(icon)
-			bar:SetLabel(name)
-			bar:SetTimeVisibility(false)
+			bar:SetLabel(name:sub(1,6))
+			bar:Set("u",floor(GetTime())+1)
 			bar:SetParent(status)
 			bar:SetPoint("BOTTOMLEFT",status,"TOPLEFT",0,3)
 			bar:SetColor(C:Azure())
 			bar:SetDuration(20)
+			bar:AddUpdateFunction(misCheck)
 			bar:Start()
 		elseif (spellid == CallPet1Id or (spellid>=CallPet2Id and spellid <= CallPet3Id)) then
 			self.petcare:SetTitle(UnitName("pet"))
