@@ -3,7 +3,7 @@
 ## Notes: Handles a hunter's pet needs in battle
 ## Author: @project-author@
 ## Version: @project-version@ @project-abbreviated-hash@
-## X-Version: 0.1 w50400
+## X-Version: 1.0.0 (50400)
 ## eMail: alar@aspide.it
 ## RequiredDeps:
 ## OptionalDeps: Ace3,AlarArtRemover,LibDebug
