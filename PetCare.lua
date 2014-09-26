@@ -84,7 +84,7 @@ function addon:OnInitialized()
 --@end-debug@
 	if (self:Is('HUNTER')) then
 		self:Init()
-		self:AddSlider("LIMIT",50,10,90,L["Health in percent under which alerts can be performed"]).width="full"
+		self:AddSlider("LIMIT",60,10,90,L["Health in percent under which alerts can be performed"]).width="full"
 		self:AddToggle("SCREENALERT",false,L["Send an alert on screen when when pet life is under limit"]).width="full"
 		self:AddToggle("SOUNDALERT",false,L["Play a sound when pet life is under limit"]).width="full"
 		self:AddToggle("ICONALERT",false,L["Show a cast icon reminder when pet life is under limit"]).width="full"
