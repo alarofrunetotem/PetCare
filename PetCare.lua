@@ -52,6 +52,8 @@ local CallPet4Id=83244
 local CallPet4=''
 local CallPet5Id=83245
 local CallPet5=''
+local GrowlId=2649
+local Growl=''
 		-- call pet 1 883
 		-- call pet 2 83242
 		-- call pet 3 83243
@@ -84,13 +86,22 @@ function addon:OnInitialized()
 --@end-debug@
 	if (self:Is('HUNTER')) then
 		self:Init()
-		self:AddSlider("LIMIT",60,10,90,L["Health in percent under which alerts can be performed"]).width="full"
-		self:AddToggle("SCREENALERT",false,L["Send an alert on screen when when pet life is under limit"]).width="full"
-		self:AddToggle("SOUNDALERT",false,L["Play a sound when pet life is under limit"]).width="full"
-		self:AddToggle("ICONALERT",false,L["Show a cast icon reminder when pet life is under limit"]).width="full"
-		self:AddSelect("SOUND",'Beam',Sounds,L["Choose the sound you want to play"])
+		self:AddSlider("LIMIT",60,10,90,L["Health limit"],L["Health in percent under which alerts can be performed"])
+		self:AddText('').width="full"
+		self:AddToggle("SCREENALERT",false,L["On screen Alert"],L["Send an alert on screen when when pet life is under limit"]).width="full"
+		self:AddToggle("SOUNDALERT",false,L["Sound alert"],L["Play a sound when pet life is under limit"]).width="full"
+		self:AddToggle("ICONALERT",false,L["Visual alert"],L["Show a cast icon reminder when pet life is under limit"]).width="full"
+		self:AddSelect("SOUND",'ReadyCheck',Sounds,L["Choose the sound you want to play"])
+		self:AddAction("PetlAlert",format(L["Test %s alert"],MendPet))
+		--self:AddAction("PetAlert",L["Test pet alert"])
+		self:AddText('').width="full"
+		self:AddToggle("INSTANCE",true,Growl,format(L["Warn if you have %s on autocast"],Growl))
+		self:AddAction("GrowlAlert",format(L["Test %s alert"],Growl))
 		self:loadHelp()
 		self:APPLY()
+		self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+		self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+		self:ScheduleRepeatingTimer("PetCheck", 1)
 	else
 		print(L['This addon is meaningless for non hunter'])
 		self:Disable()
@@ -110,15 +121,15 @@ end
 function addon:Init()
 	MendPet=GetSpellInfo(MendPetId)
 	Misdirection=GetSpellInfo(MisdirectionId)
-	RevivePet=GetSpellInfo(RevivePetId)
-	DismissPet=GetSpellInfo(DismissPetId)
-	CallPet1=GetSpellInfo(CallPet1Id)
-	CallPet2=GetSpellInfo(CallPet2Id)
-	CallPet3=GetSpellInfo(CallPet3Id)
-	CallPet4=GetSpellInfo(CallPet4Id)
-	CallPet5=GetSpellInfo(CallPet5Id)
+	RevivePet=GetSpellInfo(RevivePetId) or ''
+	DismissPet=GetSpellInfo(DismissPetId) or ''
+	CallPet1=GetSpellInfo(CallPet1Id) or ''
+	CallPet2=GetSpellInfo(CallPet2Id) or ''
+	CallPet3=GetSpellInfo(CallPet3Id) or ''
+	CallPet4=GetSpellInfo(CallPet4Id) or ''
+	CallPet5=GetSpellInfo(CallPet5Id) or ''
+	Growl=GetSpellInfo(GrowlId) or ''
 	self:GenerateFrame()
-	self:ScheduleRepeatingTimer("PetAlert", 1)
 
 end
 function addon:GenerateFrame()
@@ -206,28 +217,11 @@ function addon:GenerateFrame()
 			iconrem:SetPoint("CENTER")
 			iconrem:SetWidth(128)
 			iconrem:SetHeight(128)
-
-			self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 end
-function addon:PetAlert(value)
-	if not alert then return end
-	if (not(UnitExists("pet"))) then return end
-	local health=self.petstatus:GetValue()
-	if (value) then health = value end
-	if (health >limit) then
-		if (value) then debug("reset") end
-		throttled=false
-		iconrem:Hide()
-		return
-	end
-	debug(limit,health)
-	if (UnitBuff("Pet",MendPet)) then return end -- Already has mend pet
-	if (not throttled) then
-		if (value) then debug("throttled") end
-		throttled=true
+function addon:PetAlert()
 		if (soundalert) then
 			debug("Current sound",sound)
-			PlaySound(sound)
+			if (not PlaySound(sound)) then PlaySoundFile(sound) end
 		end
 		if (screenalert) then
 			UIErrorsFrame:AddMessage(alertmessage, 1,0,0, 1.0, 40);
@@ -235,6 +229,22 @@ function addon:PetAlert(value)
 		if (iconalert) then
 			iconrem:Show()
 		end
+end
+function addon:PetCheck(value)
+	if not alert then return end
+	if (not(UnitExists("pet"))) then return end
+	local health=self.petstatus:GetValue()
+	if (value) then health = value end
+	if (health >limit) then
+		throttled=false
+		iconrem:Hide()
+		return
+	end
+	debug(limit,health)
+	if (UnitBuff("Pet",MendPet)) then return end -- Already has mend pet
+	if (not throttled) then
+		throttled=true
+		self:PetAlert()
 	end
 end
 function addon:GenThreatBar(threatbar,unit,target)
@@ -294,20 +304,35 @@ local function barupdate(bar,elapsed)
 		local h=UnitHealth("pet") -- current health
 		local r=bar:Get("r")
 		if (tonumber(p) and tonumber(h) and tonumber(r)) then
-  		local d=(h-p)
-  		local c="green"
-  		if (d<0) then
-  			if (abs(d)>r) then
-  				c="red"
-  			else
-  				c="orange"
-  			end
-  		end
-  		bar:SetColor(C[c](C))
-  	else
-  	   return
+			local d=(h-p)
+			local c="green"
+			if (d<0) then
+				if (abs(d)>r) then
+					c="red"
+				else
+					c="orange"
+				end
+			end
+			bar:SetColor(C[c](C))
+		else
+			return
 		end
 	end
+end
+function addon:GrowlAlert()
+			PlaySound("Growl")
+			UIErrorsFrame:AddMessage("**** "..strupper(Growl).." ****", 1,1,0, 1.0, 40)
+end
+function addon:GrowlCheck()
+	local inInstance, instanceType = IsInInstance();
+	if (inInstance and (instanceType == "party" or instanceType == "raid")) then
+		if (select(2,GetSpellAutocast(GrowlId))) then
+			self:GrowlAlert()
+		end
+	end
+end
+function addon:ZONE_CHANGED_NEW_AREA(event)
+	self:ScheduleTimer("GrowlCheck",5)
 end
 function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 	if (caster == "player") then
