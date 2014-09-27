@@ -287,22 +287,26 @@ end
 local function barupdate(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
 		if (not UnitBuff("pet",MendPet)) then
-			debug(MendPet,":",UnitBuff("pet",MendPet))
 			bar:Stop()
+			return
 		end
 		local p=bar:Get("h") -- old health
 		local h=UnitHealth("pet") -- current health
 		local r=bar:Get("r")
-		local d=(h-p)
-		local c="green"
-		if (d<0) then
-			if (abs(d)>r) then
-				c="red"
-			else
-				c="orange"
-			end
+		if (tonumber(p) and tonumber(h) and tonumber(r)) then
+  		local d=(h-p)
+  		local c="green"
+  		if (d<0) then
+  			if (abs(d)>r) then
+  				c="red"
+  			else
+  				c="orange"
+  			end
+  		end
+  		bar:SetColor(C[c](C))
+  	else
+  	   return
 		end
-		bar:SetColor(C[c](C))
 	end
 end
 function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
