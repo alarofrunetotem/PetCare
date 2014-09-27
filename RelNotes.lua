@@ -10,6 +10,7 @@ PetCare manages your fighting pet needs:
 	allow to cast mend pet,revive pet and misdirection directly via it's frame
 	shows your current aggro compared to yout pet's one
 	can play a sound and or show an alert when your pet falls under a customizable level of health
+	can play a sound if you enter a non PVP instance with Growl active
 ]])
 self:RelNotes(1,0,0,[[
 First public release
