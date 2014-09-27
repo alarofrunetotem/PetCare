@@ -86,14 +86,14 @@ function addon:OnInitialized()
 --@end-debug@
 	if (self:Is('HUNTER')) then
 		self:Init()
-		self:Label(L["Settings"])
+		self:AddLabel(L["Settings"])
 		self:AddSlider("LIMIT",60,10,90,L["Health limit"],L["Health in percent under which alerts can be performed"])
 		self:AddText('').width="full"
 		self:AddToggle("SCREENALERT",false,L["On screen Alert"],L["Send an alert on screen when when pet life is under limit"]).width="full"
 		self:AddToggle("SOUNDALERT",false,L["Sound alert"],L["Play a sound when pet life is under limit"]).width="full"
 		self:AddToggle("ICONALERT",false,L["Visual alert"],L["Show a cast icon reminder when pet life is under limit"]).width="full"
 		self:AddSelect("SOUND",'ReadyCheck',Sounds,L["Choose the sound you want to play"])
-		self:AddAction("PetlAlert",format(L["Test %s alert"],MendPet))
+		self:AddAction("PetAlert",format(L["Test %s alert"],MendPet))
 		--self:AddAction("PetAlert",L["Test pet alert"])
 		self:AddText('').width="full"
 		self:AddToggle("INSTANCE",true,Growl,format(L["Warn if you have %s on autocast"],Growl))
