@@ -69,6 +69,7 @@ local Sounds={
 }
 local throttled
 local alert
+local growlalert
 local soundalert
 local screenalert
 local iconalert
@@ -93,8 +94,8 @@ function addon:OnInitialized()
 		self:AddToggle("SOUNDALERT",false,L["Sound alert"],L["Play a sound when pet life is under limit"]).width="full"
 		self:AddToggle("ICONALERT",false,L["Visual alert"],L["Show a cast icon reminder when pet life is under limit"]).width="full"
 		self:AddSelect("SOUND",'ReadyCheck',Sounds,L["Choose the sound you want to play"])
+		self:AddToggle("NOPVP",true,L["No alerts in pvp"],L["Disables all pet alerts in pvp instances"])
 		self:AddAction("PetAlert",format(L["Test %s alert"],MendPet))
-		--self:AddAction("PetAlert",L["Test pet alert"])
 		self:AddText('').width="full"
 		self:AddToggle("INSTANCE",true,Growl,format(L["Warn if you have %s on autocast"],Growl))
 		self:AddAction("GrowlAlert",format(L["Test %s alert"],Growl))
@@ -110,7 +111,7 @@ function addon:OnInitialized()
 	end
 	return true
 end
-function addon:APPLY()
+function addon:Apply()
 		soundalert=self:GetBoolean("SOUNDALERT")
 		screenalert=self:GetBoolean("SCREENALERT")
 		iconalert=self:GetBoolean("ICONALERT")
@@ -156,17 +157,17 @@ function addon:GenerateFrame()
 			local tooltip=''
 			if (toc<60000) then
 				widget:SetModifiedCast('','spell','1',MendPet)
-				tooltip=tooltip .. "Left-Click: " .. MendPet .. "\n"
+				tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
 				widget:SetModifiedCast('','spell','3',RevivePet)
-				tooltip=tooltip .. "Middle-Click: " .. RevivePet .. "\n"
+				tooltip=tooltip .. KEY_BUTTON3 .. ': ' .. RevivePet .. "\n"
 			else
 				widget:SetModifiedCast('','spell','1',RevivePet)
-				tooltip=tooltip .. "Left-Click: " .. RevivePet .. "\n"
+				tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
 			end
 			widget:SetModifiedCast('','spell','2',Misdirection)
-			tooltip=tooltip .. "Right-Click: " .. Misdirection .. "\n"
+			tooltip=tooltip .. KEY_BUTTON2 .. ': ' .. Misdirection .. "\n"
 			widget:SetModifiedCast('ctrl-','spell','2',DismissPet)
-			tooltip=tooltip .. "Ctrl-Right-Click: " .. DismissPet .. "\n"
+			tooltip=tooltip .. CTRL_KEY .. '+' .. KEY_BUTTON2 .. ': ' .. DismissPet .. "\n"
 			widget:SetTooltipText(C(tooltip,'green'))
 			local status=CreateFrame("StatusBar","PetCareStatus",nil,"TooltipStatusBarTemplate")
 			status:SetHeight(h)
@@ -241,7 +242,6 @@ function addon:PetCheck(value)
 		iconrem:Hide()
 		return
 	end
-	debug(limit,health)
 	if (UnitBuff("Pet",MendPet)) then return end -- Already has mend pet
 	if (not throttled) then
 		throttled=true
@@ -324,7 +324,7 @@ function addon:GrowlAlert()
 			PlaySound("Growl")
 			UIErrorsFrame:AddMessage("**** "..strupper(Growl).." ****", 1,1,0, 1.0, 40)
 end
-function addon:GrowlCheck()
+function addon:ZoneCheck()
 	local inInstance, instanceType = IsInInstance();
 	if (inInstance and (instanceType == "party" or instanceType == "raid")) then
 		if (select(2,GetSpellAutocast(GrowlId))) then
@@ -333,7 +333,7 @@ function addon:GrowlCheck()
 	end
 end
 function addon:ZONE_CHANGED_NEW_AREA(event)
-	self:ScheduleTimer("GrowlCheck",5)
+	self:ScheduleTimer("ZoneCheck",5)
 end
 function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 	if (caster == "player") then

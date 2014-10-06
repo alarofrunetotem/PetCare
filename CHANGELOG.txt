@@ -5,6 +5,7 @@ PetCare manages your fighting pet needs:
 * shows your current aggro compared to yout pet's one
 * can play a sound and or show an alert when your pet falls under a customizable level of health
 * can play a sound if you enter a non PVP instance with Growl active
+* alerts can be disabled in pvp instances
 Configure via Interface/Addons or via /petcare gui
 ==Rel 1.0.0==
 First Public version
