@@ -1,9 +1,11 @@
 ## Interface: 50400
 ## Title: PetCare
 ## Notes: Handles a hunter's pet needs in battle
+## Notes-itIT: Gestisce in battaglia il famiglio di un cacciatore
 ## Author: @project-author@
 ## Version: @project-version@ @project-abbreviated-hash@
-## X-Version: 1.0.1 (50400)
+## X-Version: 1.0.0 (50400)
+## X-Revision: @project-abbreviated-hash@
 ## eMail: alar@aspide.it
 ## RequiredDeps:
 ## OptionalDeps: Ace3,AlarArtRemover,LibDebug
@@ -14,7 +16,6 @@
 ## SavedVariablesPerCharacter: localdbPetCare
 ## X-ID: PetCare
 ## X-Database: dbPetCare
-## X-Revision: @project-abbreviated-hash@
 ## X-Category: Hunter
 ## X-License: GPL v3
 ## X-eMail: alar@aspide.it

@@ -1,38 +1,15 @@
 local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- MUST BE LINE 1
-local _,_,_,toc=GetBuildInfo()
-local pp=print
+local toc=select(4,GetBuildInfo())
 local me, ns = ...
---@debug@
-print("Loading",__FILE__," inside ",me)
---@end-debug@
-if (LibDebug) then LibDebug() end
-local function debug(...)
-	--@debug@
-	print(...)
-	--@end-debug@
-end
-local print=_G.print
-local notify=_G.print
-local error=_G.error
-local sdebug=debug
-local function dump() end
-local function debugEnable() end
-if (LibStub("AlarLoader-3.0",true)) then
-	local rc=LibStub("AlarLoader-3.0"):GetPrintFunctions(me)
-	print=rc.print
-	--@debug@
-	debug=rc.debug
-	sdebug=rc.sdebug
-	dump=rc.dump
-	--@end-debug@
-	notify=rc.notify
-	error=rc.error
-	debugEnable=rc.debugEnable
-else
-	debug("Missing AlarLoader-3.0")
-end
+local pp=print
 local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
 local C=LibStub("AlarCrayon-3.0"):GetColorTable()
+--local X=LibStub("AlarLoader-3.0")
+--X:loadingList(__FILE__,me)
+--X:GetPrintFunctions(me,ns)
+local addon=LibStub("AlarLoader-3.0")(__FILE__,me,ns):CreateAddon(me,true) --#Addon
+local print=ns.print or print
+local debug=ns.debug or print
 -----------------------------------------------------------------
 local MendPetId=136
 local MendPet=''
@@ -79,12 +56,9 @@ local alertmessage=''
 local iconrem
 
 --
-local addon=LibStub("AlarLoader-3.0"):CreateAddon(me,true) --#PetCare
+--local addon=LibStub("AlarLoader-3.0"):CreateAddon(me,true) --#PetCare
 function addon:OnInitialized()
 	_G.PC=self
---@debug@
-	debugEnable(true)
---@end-debug@
 	if (self:Is('HUNTER')) then
 		self:Init()
 		self:AddLabel(L["Settings"])
@@ -222,8 +196,13 @@ function addon:GenerateFrame()
 end
 function addon:PetAlert()
 		if (soundalert) then
-			debug("Current sound",sound)
-			if (not PlaySound(sound)) then PlaySoundFile(sound) end
+			if (sound and sound ~="none") then
+					if (sound:find("%pwav$")) then
+							PlaySoundFile(sound)
+					else
+							PlaySound(sound)
+					end
+			end
 		end
 		if (screenalert) then
 			UIErrorsFrame:AddMessage(alertmessage, 1,0,0, 1.0, 40);
