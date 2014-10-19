@@ -4,9 +4,6 @@ local me, ns = ...
 local pp=print
 local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
 local C=LibStub("AlarCrayon-3.0"):GetColorTable()
---local X=LibStub("AlarLoader-3.0")
---X:loadingList(__FILE__,me)
---X:GetPrintFunctions(me,ns)
 local addon=LibStub("AlarLoader-3.0")(__FILE__,me,ns):CreateAddon(me,true) --#Addon
 local print=ns.print or print
 local debug=ns.debug or print
