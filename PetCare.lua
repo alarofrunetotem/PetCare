@@ -297,8 +297,9 @@ local function barupdate(bar,elapsed)
 	end
 end
 function addon:GrowlAlert()
-			PlaySound("Growl")
-			UIErrorsFrame:AddMessage("**** "..strupper(Growl).." ****", 1,1,0, 1.0, 40)
+	PlaySound("Growl")
+	UIErrorsFrame:AddMessage("******* "..strupper(Growl).." ******", 1,0,0, 1.0, 40)
+	PlaySound("RaidWarning")
 end
 function addon:ZoneCheck()
 	local inInstance, instanceType = IsInInstance();
