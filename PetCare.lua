@@ -7,6 +7,7 @@ local C=LibStub("AlarCrayon-3.0"):GetColorTable()
 local addon=LibStub("AlarLoader-3.0")(__FILE__,me,ns):CreateAddon(me,true) --#Addon
 local print=ns.print or print
 local debug=ns.debug or print
+local InCombatLockdown,GameTooltip=InCombatLockdown,GameTooltip
 -----------------------------------------------------------------
 local MendPetId=136
 local MendPet=''
@@ -171,7 +172,7 @@ function addon:GenerateFrame()
 			widget:Append(status)
 			widget:Append(petbar)
 			mebar:SetParent(petbar)
-			petbar:SetPoint("BOTTOMLEFT",petbar:GetParent(),"TOPLEFT",0,-petbar:GetHeight()/2)
+			petbar:SetPoint("BOTTOMLEFT",petbar:GetParent(),"TOPLEFT",0,0)
 			mebar:SetPoint("TOPLEFT",mebar:GetParent(),"TOPRIGHT",-10,0)
 			status:SetPoint("TOPLEFT",status:GetParent(),"BOTTOMLEFT",0,-3)
 			status:Show()
@@ -224,44 +225,62 @@ function addon:PetCheck(value)
 		self:PetAlert()
 	end
 end
+local	function threatRefresh(self,elapsed)
+	if not UnitExists(self.unit) or not UnitExists(self.target) then self.text:SetFormattedText("%d%%",0) return end
+	local isTanking, t, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(self.unit,self.target)
+	if (isTanking) then threatpct=100 end
+	if (self.t ~= t) then
+		self.t=t
+		self:SetBackdropColor(GetThreatStatusColor(t))
+	end
+	if (tonumber(threatpct)) then
+		self.text:SetFormattedText("%d%%",threatpct)
+	else
+		self.text:SetText("---")
+	end
+	self.elapsed=self.elapsed+elapsed
+end
+local function showTooltip(self)
+	if self.tooltipText and not InCombatLockdown() then
+		GameTooltip:SetOwner(self, self.anchor or "ANCHOR_TOP")
+		GameTooltip:AddLine(self.tooltipText)
+		GameTooltip:Show()
+	end
+end
+local function hideTooltip(self)
+	GameTooltip:Hide()
+end
 function addon:GenThreatBar(threatbar,unit,target)
 	threatbar.t=-1
 	threatbar.unit=unit
 	threatbar.target=target
-	threatbar:SetHeight(30)
+	threatbar:SetHeight(15)
 	threatbar:SetWidth(60)
 	local backdrop = {
-	bgFile = "Interface\\TargetingFrame\\NumericThreatBorder", tile = false, tileSize = 16,
-	--bgFile="Interface\\QuestFrame\\UI-QuestTitleHighlight", tile = false, tileSize = 16,
+	bgFile = "Interface\\TargetingFrame\\NumericThreatBorder", tile = false, tileSize = 4,
 	edgeFile = nil, edgeSize = 0,
-	insets = {left = 0, right = 0, top = 0, bottom = 0},
+	insets = {left = 0, right = 0, top = 0, bottom = -15},
 	}
 	local text=threatbar:CreateFontString(nil,"OVERLAY","TextStatusBarText")
 	text:SetJustifyH("CENTER")
-	text:SetJustifyV("MIDDLE")
-	text:SetPoint("TOPLEFT")
+	text:SetJustifyV("BOTTOM")
+	text:SetPoint("BOTTOM")
 	text:SetHeight(15)
 	text:SetWidth(40)
 	threatbar.text=text
 	threatbar:SetBackdrop(backdrop)
+	threatbar:SetBackdropColor()
 	threatbar.elapsed=1
-	threatbar.refresh=
-	function(self,elapsed)
-			if not UnitExists(self.unit) or not UnitExists(self.target) then self.text:SetFormattedText("%d%%",0) return end
-			local isTanking, t, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(self.unit,self.target)
-			if (isTanking) then threatpct=100 end
-			if (self.t ~= t) then
-				self.t=t
-				self:SetBackdropColor(GetThreatStatusColor(t))
-			end
-			if (tonumber(threatpct)) then
-				self.text:SetFormattedText("%d%%",threatpct)
-			else
-				self.text:SetText("---")
-			end
-			self.elapsed=self.elapsed+elapsed
-		end
-	threatbar:SetScript("OnUpdate",threatbar.refresh)
+	if unit=="pet" then
+		--threatbar.anchor="ANCHOR_LEFT"
+		threatbar.tooltipText=L["Pet aggro"]
+	else
+		--threatbar.anchor="ANCHOR_RIGHT"
+		threatbar.tooltipText=L["My aggro"]
+	end
+	threatbar:SetScript("OnEnter",showTooltip)
+	threatbar:SetScript("OnLeave",hideTooltip)
+	threatbar:SetScript("OnUpdate",threatRefresh)
 end
 local function misCheck(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
