@@ -127,15 +127,10 @@ function addon:GenerateFrame()
 			widget:SetTitle(UnitName("pet") or "Pet")
 --    SetModifiedCast(modifier,actiontype,button,value)
 			local tooltip=''
-			if (toc<60000) then
-				widget:SetModifiedCast('','spell','1',MendPet)
-				tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
-				widget:SetModifiedCast('','spell','3',RevivePet)
-				tooltip=tooltip .. KEY_BUTTON3 .. ': ' .. RevivePet .. "\n"
-			else
-				widget:SetModifiedCast('','spell','1',RevivePet)
-				tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
-			end
+			--widget:SetModifiedCast('','spell','1',RevivePet)
+			widget:SetModifiedCast('','macrotext','1',"/stopcast\n/stopcast\n/cast " .. RevivePet)
+
+			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
 			widget:SetModifiedCast('','spell','2',Misdirection)
 			tooltip=tooltip .. KEY_BUTTON2 .. ': ' .. Misdirection .. "\n"
 			widget:SetModifiedCast('ctrl-','spell','2',DismissPet)
@@ -182,13 +177,10 @@ function addon:GenerateFrame()
 			self.petbar=petbar
 			iconrem=CreateFrame("Frame")
 			iconrem:Hide()
-			iconrem:SetBackdrop( {
-				bgFile = select(3,GetSpellInfo(MendPet)),
-				edgeFile = nil, tile = false, tileSize = 0, edgeSize = 32,
-				insets = { left = 0, right = 0, top = 0, bottom = 0 }
-			});
-			iconrem:SetAlpha(0.4)
-			iconrem:SetPoint("CENTER")
+			local t=iconrem:CreateTexture(nil,"BACKGROUND")
+			t:SetTexture((select(3,GetSpellInfo(MendPet))))
+			t:SetAlpha(0.4)
+			t:SetAllPoints()
 			iconrem:SetWidth(128)
 			iconrem:SetHeight(128)
 end
