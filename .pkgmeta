@@ -22,3 +22,4 @@ ignore:
 - unsplit.bat
 - Ace3.lua
 - Ace3.toc
+- libs/Ace3/tests
