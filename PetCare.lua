@@ -39,8 +39,8 @@ local Sounds={
 		["Sound\\Doodad\\ZeppelinHorn.wav"]='Horn',
 		["Sound\\Doodad\\SimonGame_LargeBlueTree.wav"]='Chimes',
 		["Sound\\Doodad\\UtherShrineLightBeam_Open.wav"]='Beam',
-		RaidWarning="RaidWarning",
-		ReadyCheck="ReadyCheck"
+		[SOUNDKIT.RAID_WARNING]="RaidWarning",
+		[SOUNDKIT.READY_CHECK]="ReadyCheck"
 }
 local throttled
 local alert
@@ -186,10 +186,10 @@ function addon:GenerateFrame()
 			iconrem:SetHeight(128)
 end
 function addon:PetAlert()
-		if (soundalert) then
-			if (sound and sound ~="none") then
-					if (sound:find("%pwav$")) then
-							PlaySoundFile(sound)
+		if soundalert then
+			if sound then
+					if type(sound)=="string" then
+							if sound ~= "none" then PlaySoundFile(sound) end
 					else
 							PlaySound(sound)
 					end
@@ -309,9 +309,9 @@ local function barupdate(bar,elapsed)
 	end
 end
 function addon:GrowlAlert()
-	PlaySound("Growl")
+	--PlaySound("Growl")
 	UIErrorsFrame:AddMessage("******* "..strupper(Growl).." ******", 1,0,0, 1.0, 40)
-	PlaySound("RaidWarning")
+	PlaySound(SOUNDKIT.RAID_WARNING)
 end
 function addon:ZoneCheck()
 	local inInstance, instanceType = IsInInstance();
