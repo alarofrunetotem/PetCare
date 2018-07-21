@@ -284,9 +284,18 @@ local function misCheck(bar,elapsed)
 		end
 	end
 end
+local function HasBuff(unit,id,filter)
+  filter = filter or "CANCELABLE"
+  local index,res=1,true
+  while res do
+    res=select(10,UnitBuff(unit,index,filter))
+    if res and res == id then return index end
+    index=index+1
+  end
+end
 local function barupdate(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
-		if (not UnitBuff("pet",MendPet)) then
+		if (not HasBuff("pet",MendPetId)) then
 			bar:Stop()
 			return
 		end
