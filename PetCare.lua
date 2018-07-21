@@ -325,9 +325,9 @@ end
 function addon:ZONE_CHANGED_NEW_AREA(event)
 	self:ScheduleTimer("ZoneCheck",5)
 end
-function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
+function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 	if (caster == "player") then
-		if (spell==MendPet) then
+		if (spellid==MendPetId) then
 			local status=self.petstatus
 			iconrem:Hide()
 			if (status) then
@@ -351,7 +351,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spell,rank,lineid,spellid)
 				bar:AddUpdateFunction(barupdate)
 				bar:Start()
 			end
-		elseif (spell==Misdirection) then
+		elseif (spellid==MisdirectionId) then
 			local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
 			local name,_,icon=GetSpellInfo(Misdirection)
 			local status=self.petbar

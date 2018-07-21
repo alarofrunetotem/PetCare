@@ -14,6 +14,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
+self:RelNotes(6,0,10,[[
+Fix: Removed lua error spam
+]])
 self:RelNotes(6,0,7,[[
 Fix: Typo in release notes (ouch)
 ]])
