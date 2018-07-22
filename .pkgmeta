@@ -7,8 +7,7 @@ externals:
 		tag: latest
 	libs/LibCandyBar-3.0:
 		url: svn://svn.wowace.com/wow/libcandybar-3-0/mainline/trunk
-	libs/AlarShared-3.0:
-		url: git://git.curseforge.net/wow/alar-art-remover/mainline.git/libs/AlarShared-3.0
+
 manual-changelog:
 		filename: CHANGELOG.txt
 		markup-type: creole
@@ -23,3 +22,5 @@ ignore:
 - Ace3.lua
 - Ace3.toc
 - libs/Ace3/tests
+- .project
+- .settings
