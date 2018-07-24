@@ -138,7 +138,6 @@ function addon:GenerateFrame()
 			status:SetHeight(h)
 			status:SetWidth(l)
 			status:SetMinMaxValues(0,100)
-			DevTools_Dump(_G.PetCareStatus)
 			status.TextString=_G.PetCareStatus.Text
 			status.TextString:SetAllPoints()
 			status.TextString:SetJustifyH("LEFT")
