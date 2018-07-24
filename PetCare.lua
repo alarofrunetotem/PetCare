@@ -52,7 +52,15 @@ local sound="RaidWarning"
 local limit=50
 local alertmessage=''
 local iconrem
-
+local function HasBuff(unit,id,filter)
+  filter = filter or "CANCELABLE"
+  local index,res=1,true
+  while res do
+    res=select(10,UnitBuff(unit,index,filter))
+    if res and res == id then return index end
+    index=index+1
+  end
+end
 --
 --local addon=LibStub("AlarLoader-3.0"):CreateAddon(me,true) --#PetCare
 function addon:OnInitialized()
@@ -212,7 +220,7 @@ function addon:PetCheck(value)
 		iconrem:Hide()
 		return
 	end
-	if (UnitBuff("Pet",MendPet)) then return end -- Already has mend pet
+	if (HasBuff("Pet",MendPetId)) then return end -- Already has mend pet
 	if (not throttled) then
 		throttled=true
 		self:PetAlert()
@@ -275,22 +283,13 @@ function addon:GenThreatBar(threatbar,unit,target)
 	threatbar:SetScript("OnLeave",hideTooltip)
 	threatbar:SetScript("OnUpdate",threatRefresh)
 end
+
 local function misCheck(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
-		if (not UnitBuff("pet",Misdirection)) then
-			debug(Misdirection,":",UnitBuff("pet",Misdirection))
+		if (not HasBuff("pet",MisdirectionId)) then
 			bar:Stop()
 		end
 	end
-end
-local function HasBuff(unit,id,filter)
-  filter = filter or "CANCELABLE"
-  local index,res=1,true
-  while res do
-    res=select(10,UnitBuff(unit,index,filter))
-    if res and res == id then return index end
-    index=index+1
-  end
 end
 local function barupdate(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
