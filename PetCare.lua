@@ -362,7 +362,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			end
 		elseif (spellid==MisdirectionId) then
 			local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
-			local name,_,icon=GetSpellInfo(Misdirection)
+			local name,_,icon=GetSpellInfo(MisdirectionId)
 			local status=self.petbar
 			bar:SetIcon(icon)
 			bar:SetLabel(name:sub(1,6))
