@@ -23,6 +23,6 @@
 embeds.xml
 localization.lua
 AlarWidgets-3.0.lua
-AlarWidgets\AlarCastHeader.lua
+AlarCastHeader.lua
 PetCare.lua
 RelNotes.lua
