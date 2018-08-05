@@ -2,9 +2,6 @@ local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- MUST BE LINE 1
 local Type,Version,Ancestor = "AlarPanel",7,"Window"
 local pp=print
 local me, ns = ...
---@debug@
-LibStub("AlarLoader-3.0"):loadingList(__FILE__,me)
---@end-debug@
 if (LibDebug) then LibDebug() end
 local function debug(...)
 --@debug@
@@ -18,8 +15,6 @@ local AWG=LibStub("AlarWidgets-3.0")
 local AceGUI=LibStub("AceGUI-3.0")
 local InjectStandardMethods=AWG.InjectStandardMethods
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
-local C=LibStub("AlarCrayon-3.0"):GetColorTable()
-local L=LibStub("AceLocale-3.0"):GetLocale("AlarShared",true)
 local Backdrops={
 	FrameBackdrop = {
 		bgFile = "Interface\\Tooltips\\ChatBubble-Background",

@@ -6,8 +6,6 @@ local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 local AWG=LibStub("AlarWidgets-3.0")
 local InjectStandardMethods=AWG.InjectStandardMethods
-LibStub("AlarLoader-3.0"):loadingList(__FILE__,me)
-
 -- Lua APIs
 local select, pairs = select, pairs
 

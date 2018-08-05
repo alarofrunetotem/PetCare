@@ -2,9 +2,12 @@ local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- MUST BE LINE 1
 local toc=select(4,GetBuildInfo())
 local me, ns = ...
 local pp=print
-local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
-local C=LibStub("AlarCrayon-3.0"):GetColorTable()
-local addon=LibStub("AlarLoader-3.0")(__FILE__,me,ns):CreateAddon(me,true) --#Addon
+local addon=LibStub("LibInit"):NewAddon(ns,me,{noswitch=false,profile=true,enhancedProfile=true},'AceHook-3.0','AceEvent-3.0','AceTimer-3.0') --#Addon
+local L=addon:GetLocale()
+local C=addon:GetColorTable()
+--local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
+--local C=LibStub("AlarCrayon-3.0"):GetColorTable()
+--local addon=LibStub("AlarLoader-3.0")(__FILE__,me,ns):CreateAddon(me,true) --#Addon
 local print=ns.print or print
 local debug=ns.debug or print
 local InCombatLockdown,GameTooltip=InCombatLockdown,GameTooltip

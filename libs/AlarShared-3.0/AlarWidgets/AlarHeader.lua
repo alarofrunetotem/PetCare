@@ -3,14 +3,10 @@ local toc=select(4,GetBuildInfo())
 local me, ns = ...
 local pp=print
 local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
-local C=LibStub("AlarCrayon-3.0"):GetColorTable()
-LibStub("AlarLoader-3.0")(__FILE__,me,ns)
 local print=ns.print or print
 local debug=ns.debug or print
 local AWG=LibStub("AlarWidgets-3.0")
 local AceGUI=LibStub("AceGUI-3.0")
-local C=LibStub("AlarCrayon-3.0"):GetColorTable()
-local L=LibStub("AceLocale-3.0"):GetLocale("AlarShared")
 --[[ Standard prologue end --]]
 local Type,Version,Ancestor = "AlarHeader",8
 local InjectStandardMethods=AWG.InjectStandardMethods

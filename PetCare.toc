@@ -22,5 +22,7 @@
 ## X-Date: @project-date-iso@
 embeds.xml
 localization.lua
+AlarWidgets-3.0.lua
+AlarWidgets\AlarCastHeader.lua
 PetCare.lua
 RelNotes.lua
