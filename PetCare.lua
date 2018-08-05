@@ -42,8 +42,8 @@ local Sounds={
 		["Sound\\Doodad\\ZeppelinHorn.wav"]='Horn',
 		["Sound\\Doodad\\SimonGame_LargeBlueTree.wav"]='Chimes',
 		["Sound\\Doodad\\UtherShrineLightBeam_Open.wav"]='Beam',
-		[SOUNDKIT.RAID_WARNING]="RaidWarning",
-		[SOUNDKIT.READY_CHECK]="ReadyCheck"
+		[tostring(SOUNDKIT.RAID_WARNING)]="RaidWarning",
+		[tostring(SOUNDKIT.READY_CHECK)]="ReadyCheck"
 }
 local throttled
 local alert
@@ -76,7 +76,8 @@ function addon:OnInitialized()
 		self:AddToggle("SCREENALERT",false,L["On screen Alert"],L["Send an alert on screen when when pet life is under limit"]).width="full"
 		self:AddToggle("SOUNDALERT",false,L["Sound alert"],L["Play a sound when pet life is under limit"]).width="full"
 		self:AddToggle("ICONALERT",false,L["Visual alert"],L["Show a cast icon reminder when pet life is under limit"]).width="full"
-		self:AddSelect("SOUND",'ReadyCheck',Sounds,L["Choose the sound you want to play"])
+    --self:AddSelect('CORNER',"br",positionScheme,L['Level text aligned to'],L['Position']).width="full"
+		self:AddSelect("SOUND",tostring(SOUNDKIT.READY_CHECK),Sounds,L["Choose the sound you want to play"])
 		self:AddToggle("NOPVP",true,L["No alerts in pvp"],L["Disables all pet alerts in pvp instances"])
 		self:AddAction("PetAlert",format(L["Test %s alert"],MendPet))
 		self:AddText('').width="full"
@@ -180,17 +181,14 @@ function addon:GenerateFrame()
 			mebar:SetPoint("TOPLEFT",mebar:GetParent(),"TOPRIGHT",-10,0)
 			status:SetPoint("TOPLEFT",status:GetParent(),"BOTTOMLEFT",0,-3)
 			status:Show()
-			debug("Create le spell")
 			widget:Show()
 			self.petstatus=status
 			self.petbar=petbar
 			iconrem=CreateFrame("Frame")
+			iconrem.icon=iconrem:CreateTexture(nil,"ARTWORK")
+			iconrem.icon:SetAllPoints()
+      iconrem.icon:SetTexture(GetSpellTexture(MendPetId))
 			iconrem:Hide()
-			iconrem:SetBackdrop( {
-				bgFile = select(3,GetSpellInfo(MendPet)),
-				edgeFile = nil, tile = false, tileSize = 0, edgeSize = 32,
-				insets = { left = 0, right = 0, top = 0, bottom = 0 }
-			});
 			iconrem:SetAlpha(0.4)
 			iconrem:SetPoint("CENTER")
 			iconrem:SetWidth(128)
@@ -199,11 +197,14 @@ end
 function addon:PetAlert()
 		if soundalert then
 			if sound then
-					if type(sound)=="string" then
-							if sound ~= "none" then PlaySoundFile(sound) end
-					else
-							PlaySound(sound)
-					end
+			    local s=tonumber(sound)
+			    if s then
+			       PlaySound(sound)
+          else
+  					if type(sound)=="string" then
+  							if sound ~= "none" then PlaySoundFile(sound) end
+  					end
+          end
 			end
 		end
 		if (screenalert) then
