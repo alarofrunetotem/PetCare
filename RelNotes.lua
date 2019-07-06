@@ -14,6 +14,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
+self:RelNotes(6,1,1,[[
+Feature: 8.2 update
+]])
 self:RelNotes(6,1,0,[[
 Feature: Dropped old AlarShared framework, now uses LibInit
 Fix: Non longer interfere with bagnon
