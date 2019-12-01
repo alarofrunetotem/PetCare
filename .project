@@ -17,13 +17,13 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.koneki.ldt.nature</nature>
+		<nature>org.eclipse.ldt.nature</nature>
 	</natures>
 	<linkedResources>
 		<link>
 			<name>_pkgmeta</name>
 			<type>1</type>
-			<location>/home/giovanni/git/Wow/PetCare/.pkgmeta</location>
+			<location>C:/home/giovanni/git/Wow/PetCare/.pkgmeta</location>
 		</link>
 	</linkedResources>
 </projectDescription>

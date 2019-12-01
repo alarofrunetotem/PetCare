@@ -32,6 +32,9 @@ local CallPet5Id=83245
 local CallPet5=''
 local GrowlId=2649
 local Growl=''
+local BeastCleaveId=118455
+local BeastCleave=''
+local MultiShotId=2643
 		-- call pet 1 883
 		-- call pet 2 83242
 		-- call pet 3 83243
@@ -295,6 +298,13 @@ local function misCheck(bar,elapsed)
 		end
 	end
 end
+local function beastcleaveCheck(bar,elapsed)
+  if (floor(GetTime()) > bar:Get("u")) then
+    if (not HasBuff("pet",BeastCleaveId)) then
+      bar:Stop()
+    end
+  end
+end
 local function barupdate(bar,elapsed)
 	if (floor(GetTime()) > bar:Get("u")) then
 		if (not HasBuff("pet",MendPetId)) then
@@ -366,7 +376,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
 			local name,_,icon=GetSpellInfo(MisdirectionId)
 			local status=self.petbar
-			bar:SetIcon(icon)
+		  bar:SetIcon(icon)
 			bar:SetLabel(name:sub(1,6))
 			bar:Set("u",floor(GetTime())+1)
 			bar:SetParent(status)
@@ -375,8 +385,30 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			bar:SetDuration(20)
 			bar:AddUpdateFunction(misCheck)
 			bar:Start()
+    elseif (spellid==MultiShotId) then
+      local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
+      local name,_,icon=GetSpellInfo(BeastCleaveId)
+      local status=self.petbar
+      bar:SetIcon(icon)
+      --bar:SetLabel(name:sub(1,6))
+      bar:SetLabel(name)
+      bar:Set("u",floor(GetTime())+1)
+      bar:SetParent(status)
+      bar:SetPoint("BOTTOMLEFT",status,"TOPLEFT",0,15)
+      bar:SetColor(C:Orange())
+      bar:SetDuration(4)
+      bar:AddUpdateFunction(beastcleaveCheck)
+      bar:Start()
 		elseif (spellid == CallPet1Id or (spellid>=CallPet2Id and spellid <= CallPet3Id)) then
 			self.petcare:SetTitle(UnitName("pet"))
 		end
 	end
+end
+function AAA()
+  local index,res=1,true
+  while res do
+    print(UnitBuff("pet",index,"CANCELABLE"))
+    res=UnitBuff("pet",index,"CANCELABLE")
+    index=index+1
+  end
 end

@@ -5,9 +5,9 @@ local C=LibStub("LibInit"):GetColorTable()
 
 if (LibDebug) then LibDebug() end
 local function debug(...)
---@debug@
+--[===[@debug@
 	print(...)
---@end-debug@
+--@end-debug@]===]
 end
 local toc=select(4,GetBuildInfo())
 local TooltipHeader=SHIFT_KEY .. '+' ..KEY_BUTTON1 .. ': ' .. DRAG_MODEL
