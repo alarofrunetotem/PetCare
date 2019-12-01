@@ -14,7 +14,7 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
-self:RelNotes(6,2,3,[[
+self:RelNotes(6,2,0,[[
 Feature: now tracks Beast Cleave
 ]])
 self:RelNotes(6,1,3,[[
