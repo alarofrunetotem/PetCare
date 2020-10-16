@@ -19,11 +19,4 @@
 	<natures>
 		<nature>org.eclipse.ldt.nature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>_pkgmeta</name>
-			<type>1</type>
-			<location>C:/home/giovanni/git/Wow/PetCare/.pkgmeta</location>
-		</link>
-	</linkedResources>
 </projectDescription>
