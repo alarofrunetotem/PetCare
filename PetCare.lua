@@ -277,7 +277,7 @@ function addon:GenThreatBar(threatbar,unit,target)
 	text:SetWidth(40)
 	threatbar.text=text
 	threatbar:SetBackdrop(backdrop)
-	threatbar:SetBackdropColor()
+	--threatbar:SetBackdropColor(a) sass
 	threatbar.elapsed=1
 	if unit=="pet" then
 		--threatbar.anchor="ANCHOR_LEFT"
@@ -360,7 +360,8 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 				bar:SetTimeVisibility(false)
 				bar:SetParent(status)
 				bar:SetPoint("TOPLEFT",status,"BOTTOMLEFT",0,-3)
-				if (UnitHealth("pet")==UnitHealthMax("pet")) then
+				if (UnitHealth("pet")==UnitHealthMax("pet")) then 
+          print(C:green())
 					bar:SetColor(C:green())
 				else
 					bar:SetColor(C:orange())

@@ -4,5 +4,5 @@
 <!-- $Id: embeds.xml 206 2011-07-03 00:05:38Z alar $ -->
 <!-- ACE2 -->
 	<Include file="libs\LibInit\LibInit.xml"/>
-	<Include file="libs\LibCandyBar-3.0\lib.xml"/>
+	<!--Include file="libs\LibCandyBar-3.0\lib.xml"/-->
 </Ui>
