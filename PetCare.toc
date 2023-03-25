@@ -1,9 +1,9 @@
-## Interface: 100002
+## Interface: 100007
 ## Title: PetCare
 ## Notes: Handles a hunter's pet needs in battle
 ## Notes-itIT: Gestisce in battaglia il famiglio di un cacciatore
 ## Author: @project-author@
-## Version: @project-version@ 100002
+## Version: @project-version@ 100007
 ## X-Version: 1.1.1
 ## X-Revision: @project-abbreviated-hash@
 ## eMail: alar@aspide.it
