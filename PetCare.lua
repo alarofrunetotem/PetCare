@@ -357,8 +357,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 				bar:SetTimeVisibility(false)
 				bar:SetParent(status)
 				bar:SetPoint("TOPLEFT",status,"BOTTOMLEFT",0,-3)
-				if (UnitHealth("pet")==UnitHealthMax("pet")) then 
-          print(C:green())
+				if (UnitHealth("pet")==UnitHealthMax("pet")) then
 					bar:SetColor(C:green())
 				else
 					bar:SetColor(C:orange())
