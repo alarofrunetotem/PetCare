@@ -2,10 +2,10 @@
 PetCare manages your fighting pet needs:
 * keeps track of mend pet
 * allow to cast mend pet,revive pet and misdirection directly via it's frame
-* shows your current aggro compared to yout pet's one
+* shows your current aggro compared to your pet's one
 * can play a sound and or show an alert when your pet falls under a customizable level of health
 * can play a sound if you enter a non PVP instance with Growl active
 * alerts can be disabled in pvp instances
 Configure via Interface/Addons or via /petcare gui
-==Rel 1.0.0==
-First Public version
+==Rel 6.7.1==
+Fixed Mend Pet / Revive pet selection

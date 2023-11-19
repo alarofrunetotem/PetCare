@@ -139,8 +139,9 @@ function addon:GenerateFrame()
 			widget:SetTitle(UnitName("pet") or "Pet")
 --    SetModifiedCast(modifier,actiontype,button,value)
 			local tooltip=''
-			widget:SetModifiedCast('','spell','1',RevivePet)
-			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "\n"
+      print(MendPet,RevivePet,CallPet1)
+      widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [pet] ' .. MendPet)
+			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "/" .. RevivePet .."\n"
 			widget:SetModifiedCast('','spell','2',Misdirection)
 			tooltip=tooltip .. KEY_BUTTON2 .. ': ' .. Misdirection .. "\n"
 			widget:SetModifiedCast('ctrl-','spell','2',DismissPet)

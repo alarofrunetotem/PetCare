@@ -1,5 +1,4 @@
-local me,ns=...
-local L=LibStub("AceLocale-3.0"):GetLocale(me,true)
+local me=...
 local hlp=LibStub("AceAddon-3.0"):GetAddon(me)
 function hlp:loadHelp()
 self:HF_Title("Pet Care",'RELNOTES')
@@ -14,6 +13,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
+self:RelNotes(6,7,1,[[
+ Fix: Now correctly chooses between Revive pet and Mend pet
+]])
 self:RelNotes(6,2,1,[[
 Toc: 8.3.0
 ]])

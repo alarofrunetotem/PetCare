@@ -4,6 +4,7 @@
 ## Notes-itIT: Gestisce in battaglia il famiglio di un cacciatore
 ## Author: @project-author@
 ## Version: @project-version@ 100200
+## IconTexture: 626000
 ## X-Version: 1.1.1
 ## X-Revision: @project-abbreviated-hash@
 ## eMail: alar@aspide.it
