@@ -1,4 +1,4 @@
-## Interface: 100250
+## Interface: 100205
 ## Title: PetCare
 ## Notes: Handles a hunter's pet needs in battle
 ## Notes-itIT: Gestisce in battaglia il famiglio di un cacciatore
