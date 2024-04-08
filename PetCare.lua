@@ -76,6 +76,7 @@ function addon:OnInitialized()
 		self:AddToggle("SCREENALERT",false,L["On screen Alert"],L["Send an alert on screen when when pet life is under limit"]).width="full"
 		self:AddToggle("SOUNDALERT",false,L["Sound alert"],L["Play a sound when pet life is under limit"]).width="full"
 		self:AddToggle("ICONALERT",false,L["Visual alert"],L["Show a cast icon reminder when pet life is under limit"]).width="full"
+		self:AddToggle("HIDEOUTOFCOMBAT",false,L["Hide when not in combat"],L["Pet care frame is hidden when out of combat"]).width="full"
     --self:AddSelect('CORNER',"br",positionScheme,L['Level text aligned to'],L['Position']).width="full"
 		self:AddSelect("SOUND",tostring(SOUNDKIT.READY_CHECK),Sounds,L["Choose the sound you want to play"])
 		self:AddToggle("NOPVP",true,L["No alerts in pvp"],L["Disables all pet alerts in pvp instances"])
@@ -87,6 +88,8 @@ function addon:OnInitialized()
 		self:Apply()
 		self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 		self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+		self:RegisterEvent("PLAYER_REGEN_DISABLED")
 		self:ScheduleRepeatingTimer("PetCheck", 1)
 	else
 		print(L['This addon is meaningless for non hunter'])
@@ -103,6 +106,11 @@ function addon:Apply()
 		sound=self:GetVar("SOUND")
 		limit=self:GetVar("LIMIT")
 		alertmessage=format(L["Pet health under "] .. "%d%%",limit)
+		if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
+			self.petcare.frame:SetAttribute("unit","none")	
+		else
+			self.petcare.frame:SetAttribute("unit","pet")	
+		end			
 end
 function addon:Init()
 	MendPet=GetSpellInfo(MendPetId)
@@ -123,7 +131,11 @@ function addon:GenerateFrame()
 			local l=100
 			local widget=LibStub("AceGUI-3.0"):Create("AlarCastHeader")
 			self.petcare=widget
-			widget.frame:SetAttribute("unit","pet")
+			if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
+				widget.frame:SetAttribute("unit","none")
+			else
+				widget.frame:SetAttribute("unit","pet")
+			end
 			RegisterUnitWatch(widget.frame)
 			widget:SetOnAttributeChanged([=[
 			if (name=='statehidden' and not value) then
@@ -139,7 +151,6 @@ function addon:GenerateFrame()
 			widget:SetTitle(UnitName("pet") or "Pet")
 --    SetModifiedCast(modifier,actiontype,button,value)
 			local tooltip=''
-      print(MendPet,RevivePet,CallPet1)
       widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [pet] ' .. MendPet)
 			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "/" .. RevivePet .."\n"
 			widget:SetModifiedCast('','spell','2',Misdirection)
@@ -185,6 +196,7 @@ function addon:GenerateFrame()
 			widget:Show()
 			self.petstatus=status
 			self.petbar=petbar
+			self.mebar=mebar
 			iconrem=CreateFrame("Frame")
 			iconrem.icon=iconrem:CreateTexture(nil,"ARTWORK")
 			iconrem.icon:SetAllPoints()
@@ -195,6 +207,17 @@ function addon:GenerateFrame()
 			iconrem:SetWidth(128)
 			iconrem:SetHeight(128)
 end
+function addon:PLAYER_REGEN_ENABLED()
+	self.petbar:SetBackdropColor(GetThreatStatusColor(0))
+	self.mebar:SetBackdropColor(GetThreatStatusColor(0))
+	self.petcare.frame:SetAttribute("unit","none")	
+	self.petcare:Hide()
+  end
+  
+  function addon:PLAYER_REGEN_DISABLED()
+	self.petcare.frame:SetAttribute("unit","pet")	
+	self.petcare:Show()
+  end
 function addon:PetAlert()
 		if soundalert then
 			if sound then
@@ -231,11 +254,11 @@ function addon:PetCheck(value)
 		self:PetAlert()
 	end
 end
-local	function threatRefresh(self,elapsed)
+local function threatRefresh(self,elapsed)
 	if not UnitExists(self.unit) or not UnitExists(self.target) then self.text:SetFormattedText("%d%%",0) return end
 	local isTanking, t, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(self.unit,self.target)
 	if (isTanking) then threatpct=100 end
-	if (self.t ~= t) then
+	if (t and self.t ~= t) then
 		self.t=t
 		self:SetBackdropColor(GetThreatStatusColor(t))
 	end
