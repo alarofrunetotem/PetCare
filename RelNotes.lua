@@ -13,10 +13,12 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
+self:RelNotes(6,10,0,[[
+Toc: 11.0.0, 11.0.2
+]])
 self:RelNotes(6,9,1,[[
 Toc: 10.2.7
 ]])
-
 self:RelNotes(6,8,1,[[
 Fix: Message: Interface/AddOns/PetCare/PetCare.lua:240: Usage: local r, g, b = GetThreatStatusColor(gameErrorIndex)
 Feature: Widget can now be hidden when out of combat: check options
