@@ -4,7 +4,7 @@
 ## Notes-itIT: Gestisce in battaglia il famiglio di un cacciatore
 ## Author: @project-author@
 ## Version: @project-version@ 100250
-## IconTexture: 626000
+## IconTexture: 132203
 ## X-Version: 1.1.1
 ## X-Revision: @project-abbreviated-hash@
 ## eMail: alar@aspide.it
@@ -21,6 +21,7 @@
 ## X-License: GPL v3
 ## X-eMail: alar@aspide.it
 ## X-Date: @project-date-iso@
+## X-Curse-Project-ID: 85128
 embeds.xml
 localization.lua
 AlarWidgets-3.0.lua
