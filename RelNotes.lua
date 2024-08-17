@@ -1,4 +1,5 @@
 local me=...
+---@class AceAddon
 local hlp=LibStub("AceAddon-3.0"):GetAddon(me)
 function hlp:loadHelp()
 self:HF_Title("Pet Care",'RELNOTES')
@@ -13,6 +14,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph("Release Notes")
+self:RelNotes(6,10,3,[[
+Fix: was not loading
+]])
 self:RelNotes(6,10,2,[[
 Library update
 ]])

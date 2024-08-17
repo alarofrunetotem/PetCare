@@ -31,6 +31,15 @@ local GrowlId=2649
 local Growl=''
 local BeastCleaveId=118455
 local BeastCleave=''
+local function GetSpellInfo(id)
+	local a=C_Spell.GetSpellInfo(id)
+	if (a) then
+		return a.name,a.castTime,a.iconID
+	else
+		return '','',''
+	end
+end
+local GetSpellTexture=C_Spell.GetSpellTexture
 local MultiShotId=2643
 		-- call pet 1 883
 		-- call pet 2 83242
@@ -94,7 +103,7 @@ function addon:OnInitialized()
 	else
 		print(L['This addon is meaningless for non hunter'])
 		self:Disable()
-		DisableAddOn(me)
+		C_AddOns.DisableAddOn(me)
 	end
 	return true
 end
@@ -151,7 +160,7 @@ function addon:GenerateFrame()
 			widget:SetTitle(UnitName("pet") or "Pet")
 --    SetModifiedCast(modifier,actiontype,button,value)
 			local tooltip=''
-      widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [pet] ' .. MendPet)
+      		widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [pet] ' .. MendPet)
 			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "/" .. RevivePet .."\n"
 			widget:SetModifiedCast('','spell','2',Misdirection)
 			tooltip=tooltip .. KEY_BUTTON2 .. ': ' .. Misdirection .. "\n"
