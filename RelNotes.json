@@ -1,0 +1,194 @@
+{
+    "NOTES": {
+        "k061000": {
+            "major": "6",
+            "minor": "10",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Version 99.99.99"
+                }
+            ]
+        },
+        "k060901": {
+            "major": "6",
+            "minor": "9",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Mend Pet\/ Revive pet selection restored"
+                }
+            ]
+        },
+        "k060801": {
+            "major": "6",
+            "minor": "8",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Message"
+                },
+                {
+                    "tag": "Feature",
+                    "info": "Widget can now be hidden when out of combat"
+                }
+            ]
+        },
+        "k060800": {
+            "major": "6",
+            "minor": "8",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "10.2.6"
+                }
+            ]
+        },
+        "k060701": {
+            "major": "6",
+            "minor": "7",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Now correctly chooses between Revive pet and Mend pet"
+                }
+            ]
+        },
+        "k060201": {
+            "major": "6",
+            "minor": "2",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "8.3.0"
+                }
+            ]
+        },
+        "k060200": {
+            "major": "6",
+            "minor": "2",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "now tracks Beast Cleave"
+                }
+            ]
+        },
+        "k060103": {
+            "major": "6",
+            "minor": "1",
+            "patch": "3",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "8.2 update"
+                }
+            ]
+        },
+        "k060100": {
+            "major": "6",
+            "minor": "1",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Dropped old AlarShared framework, now uses LibInit"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "Non longer interfere with bagnon"
+                }
+            ]
+        },
+        "k060012": {
+            "major": "6",
+            "minor": "0",
+            "patch": "12",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Removed lua error spam"
+                }
+            ]
+        },
+        "k060007": {
+            "major": "6",
+            "minor": "0",
+            "patch": "7",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Typo in release notes (ouch)"
+                }
+            ]
+        },
+        "k060006": {
+            "major": "6",
+            "minor": "0",
+            "patch": "6",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "Error when playing sounds"
+                }
+            ]
+        },
+        "k010301": {
+            "major": "1",
+            "minor": "3",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "bumped to 7.1.0"
+                }
+            ]
+        },
+        "k010001": {
+            "major": "1",
+            "minor": "0",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "Alerts Can be  disabled in PVP"
+                }
+            ]
+        },
+        "k010000": {
+            "major": "1",
+            "minor": "0",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Feature",
+                    "info": "First public release"
+                }
+            ]
+        }
+    },
+    "PARAGRAPHS": [
+        "Description",
+        "Release Notes"
+    ],
+    "TITLE": {
+        "addon": "Pet Care",
+        "title": "RELNOTES"
+    },
+    "PRE": [
+        "PetCare manages your fighting pet needs:",
+        "keeps track of mend pet in a specific petframe",
+        "allow to cast mend pet,revive pet and misdirection directly via  petframe",
+        "shows your current aggro compared to yout pet's one",
+        "can play a sound and or show an alert when your pet falls under a customizable level of health",
+        "can play a sound if you enter a non PVP instance with Growl active",
+        "alerts can be disabled in PVP"
+    ]
+}

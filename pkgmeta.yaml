@@ -2,15 +2,15 @@ package-as: PetCare
 enable-nolib-creation: no
 
 externals:
-	libs/LibInit:
-		url: https://github.com/alarofrunetotem/LibInit.git/LibInit
-		tag: latest
-	libs/LibCandyBar-3.0:
-		url: svn://svn.wowace.com/wow/libcandybar-3-0/mainline/trunk
+  libs/LibInit:
+    url: https://github.com/alarofrunetotem/LibInit.git/LibInit
+    tag: latest
+  libs/LibCandyBar-3.0:
+    url: svn://svn.wowace.com/wow/libcandybar-3-0/mainline/trunk
 
 manual-changelog:
-		filename: CHANGELOG.txt
-		markup-type: creole
+  filename: CHANGELOG.txt
+  markup-type: creole
 
 ignore:
 - luac.out
@@ -25,3 +25,6 @@ ignore:
 - libs/AlarShared-3.0
 - .project
 - .settings
+- RelNotes.bak
+- RelNotes.bak.*
+- RelNotes.json
