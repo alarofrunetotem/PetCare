@@ -68,7 +68,7 @@ local function HasBuff(unit,id,filter)
   filter = filter or "CANCELABLE"
   local index,res=1,true
   while res do
-    res=select(10,C_UnitAuras.GetBuffDataByIndex(unit,index,filter))
+    res=select(10,C_UnitAuras.GetBuffDataByIndex(unit,index))
     if res and res == id then return index end
     index=index+1
   end
@@ -116,22 +116,22 @@ function addon:Apply()
 		limit=self:GetVar("LIMIT")
 		alertmessage=format(L["Pet health under "] .. "%d%%",limit)
 		if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
-			self.petcare.frame:SetAttribute("unit","none")	
+			self.petcare.frame:SetAttribute("unit","none")
 		else
-			self.petcare.frame:SetAttribute("unit","pet")	
-		end			
+			self.petcare.frame:SetAttribute("unit","pet")
+		end
 end
 function addon:Init()
-	MendPet=GetSpellInfo(MendPetId)
-	Misdirection=GetSpellInfo(MisdirectionId)
-	RevivePet=GetSpellInfo(RevivePetId) or ''
-	DismissPet=GetSpellInfo(DismissPetId) or ''
-	CallPet1=GetSpellInfo(CallPet1Id) or ''
-	CallPet2=GetSpellInfo(CallPet2Id) or ''
-	CallPet3=GetSpellInfo(CallPet3Id) or ''
-	CallPet4=GetSpellInfo(CallPet4Id) or ''
-	CallPet5=GetSpellInfo(CallPet5Id) or ''
-	Growl=GetSpellInfo(GrowlId) or ''
+	MendPet=C_Spell.GetSpellName(MendPetId)  or ''
+	Misdirection=C_Spell.GetSpellName(MisdirectionId) or ''
+	RevivePet=C_Spell.GetSpellName(RevivePetId) or ''
+	DismissPet=C_Spell.GetSpellName(DismissPetId) or ''
+	CallPet1=C_Spell.GetSpellName(CallPet1Id) or ''
+	CallPet2=C_Spell.GetSpellName(CallPet2Id) or ''
+	CallPet3=C_Spell.GetSpellName(CallPet3Id) or ''
+	CallPet4=C_Spell.GetSpellName(CallPet4Id) or ''
+	CallPet5=C_Spell.GetSpellName(CallPet5Id) or ''
+	Growl=C_Spell.GetSpellName(GrowlId) or ''
 	self:GenerateFrame()
 
 end
@@ -171,6 +171,7 @@ function addon:GenerateFrame()
 			status:SetHeight(h)
 			status:SetWidth(l)
 			status:SetMinMaxValues(0,100)
+---@diagnostic disable-next-line: undefined-field
 			status.TextString=_G.PetCareStatus.Text
 			status.TextString:SetAllPoints()
 			status.TextString:SetJustifyH("LEFT")
@@ -209,7 +210,7 @@ function addon:GenerateFrame()
 			iconrem=CreateFrame("Frame")
 			iconrem.icon=iconrem:CreateTexture(nil,"ARTWORK")
 			iconrem.icon:SetAllPoints()
-      iconrem.icon:SetTexture(GetSpellTexture(MendPetId))
+	      	iconrem.icon:SetTexture(C_Spell.GetSpellTexture(MendPetId))
 			iconrem:Hide()
 			iconrem:SetAlpha(0.4)
 			iconrem:SetPoint("CENTER")
@@ -219,12 +220,12 @@ end
 function addon:PLAYER_REGEN_ENABLED()
 	self.petbar:SetBackdropColor(GetThreatStatusColor(0))
 	self.mebar:SetBackdropColor(GetThreatStatusColor(0))
-	self.petcare.frame:SetAttribute("unit","none")	
+	self.petcare.frame:SetAttribute("unit","none")
 	self.petcare:Hide()
   end
-  
+
   function addon:PLAYER_REGEN_DISABLED()
-	self.petcare.frame:SetAttribute("unit","pet")	
+	self.petcare.frame:SetAttribute("unit","pet")
 	self.petcare:Show()
   end
 function addon:PetAlert()
@@ -232,7 +233,7 @@ function addon:PetAlert()
 			if sound then
 			    local s=tonumber(sound)
 			    if s then
-			       PlaySound(sound)
+			       PlaySound(s)
           else
   					if type(sound)=="string" then
   							if sound ~= "none" then PlaySoundFile(sound) end
@@ -368,7 +369,7 @@ end
 function addon:ZoneCheck()
 	local inInstance, instanceType = IsInInstance();
 	if (inInstance and (instanceType == "party" or instanceType == "raid")) then
-		if (select(2,GetSpellAutocast(GrowlId))) then
+		if (select(2,C_Spell.GetSpellAutoCast(GrowlId))) then
 			self:GrowlAlert()
 		end
 	end
@@ -384,7 +385,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			if (status) then
 				status:Show()
 				local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
-				local name,_,icon=GetSpellInfo(MendPet)
+				local name,_,icon=C_Spell.GetSpellName(MendPet)
 				bar:SetIcon(icon)
 				bar:SetLabel(name)
 				bar:SetTimeVisibility(false)
@@ -404,7 +405,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			end
 		elseif (spellid==MisdirectionId) then
 			local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
-			local name,_,icon=GetSpellInfo(MisdirectionId)
+			local name,_,icon=C_Spell.GetSpellName(MisdirectionId)
 			local status=self.petbar
 		  bar:SetIcon(icon)
 			bar:SetLabel(name:sub(1,6))
@@ -417,7 +418,7 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 			bar:Start()
     elseif (spellid==MultiShotId) then
       local bar=LibStub("LibCandyBar-3.0"):New("Interface\\TargetingFrame\\UI-StatusBar",100,15)
-      local name,_,icon=GetSpellInfo(BeastCleaveId)
+      local name,_,icon=C_Spell.GetSpellName(BeastCleaveId)
       local status=self.petbar
       bar:SetIcon(icon)
       --bar:SetLabel(name:sub(1,6))
@@ -435,10 +436,10 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 	end
 end
 function AAA()
-  local index,res=1,true
-  while res do
-    print(UnitBuff("pet",index,"CANCELABLE"))
-    res=UnitBuff("pet",index,"CANCELABLE")
+  local index,res
+  repeat
+    print(C_UnitAuras.GetBuffDataByIndex("pet",index,"CANCELABLE"))
+    res=C_UnitAuras.GetBuffDataByIndex("pet",index,"CANCELABLE")
     index=index+1
-  end
+  until res == nil
 end

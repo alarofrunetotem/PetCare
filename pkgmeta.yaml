@@ -9,8 +9,8 @@ externals:
     url: svn://svn.wowace.com/wow/libcandybar-3-0/mainline/trunk
 
 manual-changelog:
-    filename: CHANGELOG.txt
-    markup-type: creole
+  filename: CHANGELOG.txt
+  markup-type: creole
 
 ignore:
 - luac.out
@@ -25,3 +25,6 @@ ignore:
 - libs/AlarShared-3.0
 - .project
 - .settings
+- RelNotes.bak
+- RelNotes.bak.*
+- RelNotes.json
