@@ -1,5 +1,5 @@
 local __FILE__=tostring(debugstack(1,2,0):match("(.*):1:")) -- MUST BE LINE 1
-local Type,Version,Ancestor = "AlarCastHeader",4
+local Type,Version,Ancestor = "AlarCastHeader",4, nil
 local me, ns = ...
 local C=LibStub("LibInit"):GetColorTable()
 
