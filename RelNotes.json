@@ -1,5 +1,24 @@
 {
     "NOTES": {
+        "k061102": {
+            "major": "6",
+            "minor": "11",
+            "patch": "2",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "11.0.7"
+                },
+                {
+                    "tag": "Fix",
+                    "info": "code upgraded to last api version"
+                },
+                {
+                    "tag": "Feature",
+                    "info": "Version 6.11.1"
+                }
+            ]
+        },
         "k061101": {
             "major": "6",
             "minor": "11",
