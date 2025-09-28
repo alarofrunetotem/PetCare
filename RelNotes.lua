@@ -15,6 +15,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(6,12,0,[[
+Fix: work in progress
+]])
 self:RelNotes(6,11,3,[[
 Toc: 11.1.5
 ]])
