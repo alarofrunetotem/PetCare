@@ -116,8 +116,10 @@ function addon:Apply()
 		limit=self:GetVar("LIMIT")
 		alertmessage=format(L["Pet health under "] .. "%d%%",limit)
 		if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
+---@diagnostic disable-next-line: invisible
 			self.petcare.frame:SetAttribute("unit","none")
 		else
+---@diagnostic disable-next-line: invisible
 			self.petcare.frame:SetAttribute("unit","pet")
 		end
 end
@@ -141,10 +143,13 @@ function addon:GenerateFrame()
 			local widget=LibStub("AceGUI-3.0"):Create("AlarCastHeader")
 			self.petcare=widget
 			if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
+---@diagnostic disable-next-line: invisible
 				widget.frame:SetAttribute("unit","none")
 			else
+---@diagnostic disable-next-line: invisible
 				widget.frame:SetAttribute("unit","pet")
 			end
+---@diagnostic disable-next-line: invisible
 			RegisterUnitWatch(widget.frame)
 			widget:SetOnAttributeChanged([=[
 			if (name=='statehidden' and not value) then
@@ -220,11 +225,13 @@ end
 function addon:PLAYER_REGEN_ENABLED()
 	self.petbar:SetBackdropColor(GetThreatStatusColor(0))
 	self.mebar:SetBackdropColor(GetThreatStatusColor(0))
+---@diagnostic disable-next-line: invisible
 	self.petcare.frame:SetAttribute("unit","none")
 	self.petcare:Hide()
   end
 
   function addon:PLAYER_REGEN_DISABLED()
+---@diagnostic disable-next-line: invisible
 	self.petcare.frame:SetAttribute("unit","pet")
 	self.petcare:Show()
   end
