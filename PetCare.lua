@@ -175,7 +175,7 @@ function addon:GenerateFrame()
 			local status=CreateFrame("StatusBar","PetCareStatus",nil,"TooltipStatusBarTemplate")
 			status:SetHeight(h)
 			status:SetWidth(l)
-			status:SetMinMaxValues(0,100)
+			--status:SetMinMaxValues(0,100)
 ---@diagnostic disable-next-line: undefined-field
 			status.TextString=_G.PetCareStatus.Text
 			status.TextString:SetAllPoints()
@@ -188,7 +188,12 @@ function addon:GenerateFrame()
 					self.elapsed=0
 				end
 				if (UnitExists("pet")) then
-						self:SetValue(floor(UnitHealth("pet")/UnitHealthMax("pet")*100+0.5))
+						local c,m=UnitHealth("pet"),UnitHealthMax("pet")
+						if (issecretvalue(c) or issecretvalue(m)) then
+							self:SetValue(c)
+						else
+							self:SetValue(floor(c/m*100+0.5))
+						end
 				end
 			end
 			status.onchanged=function(self,value)
@@ -398,14 +403,14 @@ function addon:UNIT_SPELLCAST_SUCCEEDED(event, caster,spelldata,spellid)
 				bar:SetTimeVisibility(false)
 				bar:SetParent(status)
 				bar:SetPoint("TOPLEFT",status,"BOTTOMLEFT",0,-3)
-				if (UnitHealth("pet")==UnitHealthMax("pet")) then
-					bar:SetColor(C:green())
-				else
-					bar:SetColor(C:orange())
-				end
+				-- if (UnitHealth("pet")==UnitHealthMax("pet")) then
+				-- 	bar:SetColor(C:green())
+				-- else
+				-- 	bar:SetColor(C:orange())
+				-- end
 				bar:Set("u",floor(GetTime())+1)
-				bar:Set("h",UnitHealth("pet"))
-				bar:Set("r",UnitHealthMax("pet")/20) -- 5% health
+				-- bar:Set("h",UnitHealth("pet"))
+				-- bar:Set("r",UnitHealthMax("pet")/20) -- 5% health
 				bar:SetDuration(10)
 				bar:AddUpdateFunction(barupdate)
 				bar:Start()
