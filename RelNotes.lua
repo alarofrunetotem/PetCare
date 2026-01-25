@@ -6,15 +6,19 @@ function hlp:loadHelp()
 self:HF_Title([[Pet Care]],[[RELNOTES]])
 self:HF_Paragraph('Description')
 self:HF_Pre([[
+Due to changes in the API which maje impossible to track real halth some functions non loger exixts
 PetCare manages your fighting pet needs:
 keeps track of mend pet in a specific petframe
 allow to cast mend pet,revive pet and misdirection directly via  petframe
 shows your current aggro compared to yout pet's one
-can play a sound and or show an alert when your pet falls under a customizable level of health
+[removed]can play a sound and or show an alert when your pet falls under a customizable level of health
 can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(6,13,1,[[
+Refactor: Update health tracking logic and remove deprecated functionality
+]])
 self:RelNotes(6,13,0,[[
 Feature: Feature; Added categories
 Toc: 11.2.7
