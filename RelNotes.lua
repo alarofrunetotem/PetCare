@@ -16,6 +16,9 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(6,14,0,[[
+Toc: 12.0.1
+]])
 self:RelNotes(6,13,1,[[
 Refactor: Update health tracking logic and remove deprecated functionality
 ]])
