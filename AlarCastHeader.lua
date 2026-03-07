@@ -38,6 +38,12 @@ end
 function cc:SetTooltipText(text)
 	self.frame.tooltipText=C(TooltipHeader,"yellow") .. "\n" .. text
 end
+function cc:SetAttribute(name,value)
+	self.frame:SetAttribute(name,value)
+end
+function cc:registerForUnitWatch()
+	RegisterUnitWatch(self.frame)
+end
 function cc:SetOnAttributeChanged(snippet)
 	self.frame:SetAttribute('_onattributechanged',snippet)
 end
