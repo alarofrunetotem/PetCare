@@ -1,5 +1,16 @@
 {
     "NOTES": {
+        "k061600": {
+            "major": "6",
+            "minor": "16",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "Fix",
+                    "info": "healthbar works again"
+                }
+            ]
+        },
         "k061500": {
             "major": "6",
             "minor": "15",

@@ -64,6 +64,7 @@ local sound="RaidWarning"
 local limit=50
 local alertmessage=''
 local iconrem
+local hideoutofcombat
 local function HasBuff(unit,id,filter)
   filter = filter or "CANCELABLE"
   local index,res=1,true
@@ -115,7 +116,8 @@ function addon:Apply()
 		sound=self:GetVar("SOUND")
 		limit=self:GetVar("LIMIT")
 		alertmessage=format(L["Pet health under "] .. "%d%%",limit)
-		if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
+		hideoutofcombat=self:GetBoolean("HIDEOUTOFCOMBAT")
+		if hideoutofcombat then
 ---@diagnostic disable-next-line: invisible
 			self.petcare.frame:SetAttribute("unit","none")
 		else
@@ -142,15 +144,12 @@ function addon:GenerateFrame()
 			local l=100
 			local widget=LibStub("AceGUI-3.0"):Create("AlarCastHeader")
 			self.petcare=widget
-			if (self:GetBoolean("HIDEOUTOFCOMBAT")) then
----@diagnostic disable-next-line: invisible
-				widget.frame:SetAttribute("unit","none")
+			if hideoutofcombat then
+				widget:SetAttribute("unit","none")
 			else
----@diagnostic disable-next-line: invisible
-				widget.frame:SetAttribute("unit","pet")
+				widget:SetAttribute("unit","pet")
 			end
----@diagnostic disable-next-line: invisible
-			RegisterUnitWatch(widget.frame)
+			widget:registerForUnitWatch()
 			widget:SetOnAttributeChanged([=[
 			if (name=='statehidden' and not value) then
 				self:CallMethod("SetText",(select(2,PlayerPetSummary())))
@@ -165,9 +164,9 @@ function addon:GenerateFrame()
 			widget:SetTitle(UnitName("pet") or "Pet")
 --    SetModifiedCast(modifier,actiontype,button,value)
 			local tooltip=''
-      		widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [pet] ' .. MendPet)
+      		widget:SetModifiedCast('','macrotext','1','/cast [@pet,dead] '.. RevivePet .. '; [@pet] ' .. MendPet)
 			tooltip=tooltip .. KEY_BUTTON1 .. ': ' .. MendPet .. "/" .. RevivePet .."\n"
-			widget:SetModifiedCast('','spell','2',Misdirection)
+			widget:SetModifiedCast('','macrotext','2','/cast [@pet] ' .. Misdirection)
 			tooltip=tooltip .. KEY_BUTTON2 .. ': ' .. Misdirection .. "\n"
 			widget:SetModifiedCast('ctrl-','spell','2',DismissPet)
 			tooltip=tooltip .. CTRL_KEY .. '+' .. KEY_BUTTON2 .. ': ' .. DismissPet .. "\n"
@@ -188,18 +187,12 @@ function addon:GenerateFrame()
 					self.elapsed=0
 				end
 				if (UnitExists("pet")) then
-						local c,m=UnitHealth("pet"),UnitHealthMax("pet")
-						if (issecretvalue(c) or issecretvalue(m)) then
-							self:SetValue(c)
-						else
-							self:SetValue(floor(c/m*100+0.5))
-						end
+					if (not InCombatLockdown()) then 
+						status:SetMinMaxValues(0,UnitHealthMax('pet'))
+					end
+					status:SetValue(UnitHealth('pet'))
 				end
 			end
-			status.onchanged=function(self,value)
-					HealthBar_OnValueChanged(self,value,true)
-					self.TextString:SetFormattedText("%d%%",value)
-				end
 			status:SetScript("OnUpdate",status.refresh)
 			status:SetScript("OnValueChanged",status.onchanged)
 			local petbar=CreateFrame("Frame",nil,nil,BackdropTemplateMixin and "BackdropTemplate")
@@ -230,14 +223,14 @@ end
 function addon:PLAYER_REGEN_ENABLED()
 	self.petbar:SetBackdropColor(GetThreatStatusColor(0))
 	self.mebar:SetBackdropColor(GetThreatStatusColor(0))
----@diagnostic disable-next-line: invisible
-	self.petcare.frame:SetAttribute("unit","none")
-	self.petcare:Hide()
+	if (hideoutofcombat) then 
+		self.petcare:SetAttribute("unit","none")
+		self.petcare:Hide()
+	end
   end
 
   function addon:PLAYER_REGEN_DISABLED()
----@diagnostic disable-next-line: invisible
-	self.petcare.frame:SetAttribute("unit","pet")
+	self.petcare:SetAttribute("unit","pet")
 	self.petcare:Show()
   end
 function addon:PetAlert()
