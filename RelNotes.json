@@ -1,5 +1,16 @@
 {
     "NOTES": {
+        "k061500": {
+            "major": "6",
+            "minor": "15",
+            "patch": "0",
+            "description": [
+                {
+                    "tag": "FIx",
+                    "info": "PetCare\/PetCare.lua"
+                }
+            ]
+        },
         "k061400": {
             "major": "6",
             "minor": "14",

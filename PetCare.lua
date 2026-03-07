@@ -279,11 +279,11 @@ end
 local function threatRefresh(self,elapsed)
 	if not UnitExists(self.unit) or not UnitExists(self.target) then self.text:SetFormattedText("%d%%",0) return end
 	local isTanking, t, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation(self.unit,self.target)
-	if (isTanking) then threatpct=100 end
-	if (t and self.t ~= t) then
-		self.t=t
-		self:SetBackdropColor(GetThreatStatusColor(t))
-	end
+	-- if (isTanking) then threatpct=100 end
+	-- if (t and self.t ~= t) then
+	-- 	self.t=t
+	-- 	self:SetBackdropColor(GetThreatStatusColor(t))
+	-- end
 	if (tonumber(threatpct)) then
 		self.text:SetFormattedText("%d%%",threatpct)
 	else
