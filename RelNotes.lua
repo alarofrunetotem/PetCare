@@ -16,11 +16,14 @@ can play a sound if you enter a non PVP instance with Growl active
 alerts can be disabled in PVP
 ]])
 self:HF_Paragraph('Release Notes')
+self:RelNotes(6,16,1,[[
+Toc: 12.0.5
+]])
 self:RelNotes(6,16,0,[[
 Fix: healthbar works again
 ]])
 self:RelNotes(6,15,0,[[
-FIx: PetCare/PetCare.lua
+FIx: PetCare/PetCare.lua lua error
 ]])
 self:RelNotes(6,14,0,[[
 Toc: 12.0.1

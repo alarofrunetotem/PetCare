@@ -1,5 +1,16 @@
 {
     "NOTES": {
+        "k061601": {
+            "major": "6",
+            "minor": "16",
+            "patch": "1",
+            "description": [
+                {
+                    "tag": "Toc",
+                    "info": "12.0.5"
+                }
+            ]
+        },
         "k061600": {
             "major": "6",
             "minor": "16",
@@ -18,7 +29,7 @@
             "description": [
                 {
                     "tag": "FIx",
-                    "info": "PetCare\/PetCare.lua"
+                    "info": "PetCare\/PetCare.lua lua error"
                 }
             ]
         },
